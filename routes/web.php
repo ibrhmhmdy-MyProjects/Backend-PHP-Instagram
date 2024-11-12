@@ -5,28 +5,24 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
+
+Route::middleware('auth')->group(function(){
+    Route::controller(ProfileController::class)->group(function (){
+        Route::get('/profile','edit')->name('profile.edit');
+        Route::patch('/profile','update')->name('profile.update');
+        Route::delete('/profile','destroy')->name('profile.destroy');
+    });
+    Route::controller(PostController::class)->group(function(){
+        Route::get('/','index')->name('home');
+        Route::get('post/create', 'create')->name('createPost');
+        Route::post('post/store', 'store')->name('storePost');
+        Route::get('post/{post:slug}/show', 'show')->name('showPost');
+        Route::get('post/{post:slug}/edit', 'edit')->name('editPost');
+        Route::patch('post/{post:slug}/update', 'update')->name('updatePost');
+        Route::delete('post/{post:slug}/delete', 'destroy')->name('deletePost');
+    });
+    Route::post('post/{post:slug}/comment', [CommentController::class,'store'])->name('storeComment');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-
-Route::middleware('auth')->group(function () {
-    
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-Route::get('post/create', [PostController::class,'create'])->name('createPost')->middleware('auth');
-Route::post('post/store', [PostController::class,'store'])->name('storePost')->middleware('auth');
-Route::get('post/{post:slug}/show', [PostController::class,'show'])->name('showPost')->middleware('auth');
-Route::post('post/{post:slug}/comment', [CommentController::class,'store'])->name('storeComment')->middleware('auth');
-Route::get('post/{post:slug}/edit', [PostController::class,'edit'])->name('editPost')->middleware('auth');
-Route::patch('post/{post:slug}/update', [PostController::class,'update'])->name('updatePost')->middleware('auth');
-Route::delete('post/{post:slug}/delete', [PostController::class,'destroy'])->name('deletePost')->middleware('auth');
 
 require __DIR__.'/auth.php';

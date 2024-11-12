@@ -1,0 +1,37 @@
+<div class="card">
+    {{-- Card Header --}}
+    <div class="card-header">
+        <img src="{{$post->user->image}}" class="w-9 h-9 rounded-full mr-3">
+        <a href="/{{$post->user->username}}" class="font-bold">{{$post->user->username}}</a>
+    </div>
+    {{-- Card Body --}}
+    <div class="card-body">
+        <div class="max-h-[35rem] overflow-hidden">
+            <img src="{{asset('storage')}}/{{$post->image}}" alt="" class="h-auto w-full object-cover">
+        </div>
+        <div class="p-3">
+            <a href="{{$post->user->username}}" class="mr-1 font-bold">{{$post->user->username}}</a>
+            <p class="text-gray-600">{{$post->description}}</p>
+        </div>
+        @if ($post->comments()->count() > 0)
+            <a href="/post/{{$post->slug}}/show" class="p-3 font-bold text-sm text-gray-500">
+                {{__('View all ' . $post->comments()->count() . ' comments')}}
+            </a>
+        @endif
+
+        <div class="p-3 text-gray-400 uppercase text-xs">
+            {{$post->created_at->diffForHumans()}}
+        </div>
+    </div>
+    {{-- Card Footer --}}
+    <div class="card-footer">
+        <form action="/post/{{$post->slug}}/comment" method="POST">
+            @csrf
+            <div class="flex flex-row">
+                <textarea name="body" placeholder="{{__('Add a comment...')}}" autocomplete="off" autocorrect="off"
+                class="grow border-none resize-none focus:ring-0 outline-0 bg-none max-h-60 h-5 p-0 overflow-y-hidden placeholder-gray-400"></textarea>
+                <button type="submit" class="bg-white border-none text-blue-500 ml-5">{{__('POST')}}</button>
+            </div>
+        </form>
+    </div>
+</div>
