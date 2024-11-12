@@ -10,9 +10,21 @@
       <div class="border-b-2">
         <div class="flex items-center p-5">
           <img src="{{$post->user->image}}" alt="{{$post->user->username}}" class="mr-5 h-10 w-10 rounded-full">
-          <a href="/{{$post->user->username}}" class="font-bold">
-            {{$post->user->username}}
-          </a>
+          <div class="grow">
+            <a href="/{{$post->user->username}}" class="font-bold">
+              {{$post->user->username}}
+            </a>
+          </div>
+          @if ($post->user->id === auth()->id())
+          <a class="mr-2" href="{{route('editPost',$post->slug)}}"><i class='bx bxs-edit-alt text-blue-600 text-xl'></i></a>
+          <form action="{{route('deletePost',$post->slug)}}" method="POST">
+            @csrf
+            @method('DELETE')
+            <button type="submit" onclick="return confirm('Are You Sure Delete This Post')">
+              <i class='bx bx-message-square-x text-red-600 text-xl'></i>
+            </button>
+          </form>
+          @endif
         </div>
       </div>
       {{-- Middle --}}
@@ -43,8 +55,8 @@
           </div>
           @endforeach
         </div>
-        {{-- Add Comment Form --}}
       </div>
+      {{-- Bottom --}}
       <div class="border-t-2 p-5">
         <form action="{{route('storeComment',$post->slug)}}" method="POST">
           @csrf
@@ -55,8 +67,6 @@
           </div>
         </form>
       </div>
-      {{-- Bottom --}}
-
     </div>
   </div>
 </x-app-layout>

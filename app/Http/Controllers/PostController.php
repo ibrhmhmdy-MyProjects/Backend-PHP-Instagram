@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -60,7 +61,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return \view('posts.edit', compact('post'));
     }
 
     /**
@@ -68,7 +69,18 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $data = $request->validate([
+            'image' => ['nullable','mimes:jpg,jpeg,png,gif'],
+            'description' => 'required'
+        ]);
+
+        if($request->has('image')){
+            $image = $request['image']->store('posts','public');
+            $data['image'] = $image;
+        }
+
+        $post->update($data);
+        return \redirect()->route('showPost',$post);
     }
 
     /**
@@ -76,6 +88,8 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        Storage::delete('public/'. $post->image);
+        $post->delete();
+        return \redirect(url('/'));
     }
 }

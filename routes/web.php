@@ -23,6 +23,10 @@ Route::middleware('auth')->group(function () {
 
 Route::get('post/create', [PostController::class,'create'])->name('createPost')->middleware('auth');
 Route::post('post/store', [PostController::class,'store'])->name('storePost')->middleware('auth');
-Route::get('post/show/{post:slug}', [PostController::class,'show'])->name('showPost')->middleware('auth');
-Route::post('/post/{post:slug}/comment', [CommentController::class,'store'])->name('storeComment')->middleware('auth');
+Route::get('post/{post:slug}/show', [PostController::class,'show'])->name('showPost')->middleware('auth');
+Route::post('post/{post:slug}/comment', [CommentController::class,'store'])->name('storeComment')->middleware('auth');
+Route::get('post/{post:slug}/edit', [PostController::class,'edit'])->name('editPost')->middleware('auth');
+Route::patch('post/{post:slug}/update', [PostController::class,'update'])->name('updatePost')->middleware('auth');
+Route::delete('post/{post:slug}/delete', [PostController::class,'destroy'])->name('deletePost')->middleware('auth');
+
 require __DIR__.'/auth.php';
