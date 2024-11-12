@@ -24,10 +24,10 @@ class User extends Authenticatable
         'password',
         'image',
     ];
-    public function Posts(){
+    public function posts(){
         return $this->hasMany(Post::class);
     }
-    public function Comments(){
+    public function comments(){
         return $this->hasMany(Comment::class);
     }
     /**
