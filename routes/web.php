@@ -23,6 +23,7 @@ Route::middleware('auth')->group(function(){
     });
     Route::post('post/{post:slug}/comment', [CommentController::class,'store'])->name('storeComment');
 });
+Route::get('explore',[PostController::class,'explore'])->name('explore');
 
 
 require __DIR__.'/auth.php';

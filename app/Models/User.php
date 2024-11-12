@@ -52,4 +52,8 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function SuggestedUsers(){
+        return User::whereNot('id',auth()->id())->get()->shuffle()->take(5);
+    }
 }
