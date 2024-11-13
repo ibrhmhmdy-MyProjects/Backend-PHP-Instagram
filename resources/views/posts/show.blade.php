@@ -11,7 +11,7 @@
         <div class="flex items-center px-5 py-4">
           <img src="{{$post->user->image}}" alt="{{$post->user->username}}" class="mr-5 h-10 w-10 rounded-full">
           <div class="grow">
-            <a href="/{{$post->user->username}}" class="font-bold">
+            <a href="{{route('userProfile',$post->user->username)}}" class="font-bold">
               {{$post->user->username}}
             </a>
           </div>

@@ -9,13 +9,6 @@
                         <h4 class="my-12 text-3xl font-bold text-center text-orange-600">Insta<span class="text-gray-600">Clone</span></h4>
                     </a>
                 </div>
-{{-- 
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
-                        {{ __('Home') }}
-                    </x-nav-link>
-                </div> --}}
             </div>
 
             <!-- Settings Dropdown -->
@@ -49,11 +42,11 @@
                 @endauth
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
-                        <img src="{{auth()->user()->image}}" class="w-6 h-6 rounded-full cursor-pointer">
+                        <img src="{{auth()->user()->image ? asset('storage/' . auth()->user()->image) : auth()->user()->image}}" class="w-6 h-6 rounded-full cursor-pointer">
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
+                        <x-dropdown-link :href="route('userProfile',auth()->user()->username)">
                             {{ __('Profile') }}
                         </x-dropdown-link>
 
@@ -99,7 +92,7 @@
             </div>
 
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
+                <x-responsive-nav-link :href="route('userProfile',auth()->user()->username)">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
 

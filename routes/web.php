@@ -2,16 +2,16 @@
 
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
+require __DIR__.'/auth.php';
+
+Route::get('{user:username}',[UsersController::class,'index'])->middleware('auth')->name('userProfile');
+Route::get('{user:username}/edit',[UsersController::class,'edit'])->middleware('auth')->name('editProfile');
+Route::patch('{user:username}/update',[UsersController::class,'update'])->middleware('auth')->name('updateProfile');
 
 Route::middleware('auth')->group(function(){
-    Route::controller(ProfileController::class)->group(function (){
-        Route::get('/profile','edit')->name('profile.edit');
-        Route::patch('/profile','update')->name('profile.update');
-        Route::delete('/profile','destroy')->name('profile.destroy');
-    });
     Route::controller(PostController::class)->group(function(){
         Route::get('/','index')->name('home');
         Route::get('post/create', 'create')->name('createPost');
@@ -25,5 +25,3 @@ Route::middleware('auth')->group(function(){
 });
 Route::get('explore',[PostController::class,'explore'])->name('explore');
 
-
-require __DIR__.'/auth.php';

@@ -2,7 +2,7 @@
     {{-- Card Header --}}
     <div class="card-header">
         <img src="{{$post->user->image}}" class="w-9 h-9 rounded-full mr-3">
-        <a href="/{{$post->user->username}}" class="font-bold">{{$post->user->username}}</a>
+        <a href="{{route('userProfile',$post->user->username)}}" class="font-bold">{{$post->user->username}}</a>
     </div>
     {{-- Card Body --}}
     <div class="card-body">
@@ -12,7 +12,7 @@
             </a>
         </div>
         <div class="p-3">
-            <a href="{{$post->user->username}}" class="mr-1 font-bold">{{$post->user->username}}</a>
+            <a href="{{route('userProfile',$post->user->username)}}" class="mr-1 font-bold">{{$post->user->username}}</a>
             <p class="text-gray-600">{{$post->description}}</p>
         </div>
         @if ($post->comments()->count() > 0)
