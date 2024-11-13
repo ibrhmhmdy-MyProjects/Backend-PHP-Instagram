@@ -26,12 +26,19 @@ class User extends Authenticatable
         'bio',
         'private_account',
     ];
+
     public function posts(){
         return $this->hasMany(Post::class);
     }
+    
     public function comments(){
         return $this->hasMany(Comment::class);
     }
+    
+    public function likes(){
+        return $this->belongsToMany(Post::class,'likes');
+    }
+    
     /**
      * The attributes that should be hidden for serialization.
      *

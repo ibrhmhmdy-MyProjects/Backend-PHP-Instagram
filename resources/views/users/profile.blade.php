@@ -2,7 +2,7 @@
   <div class="grid grid-cols-4">
     {{-- User Image --}}
     <div class="px-4 col-span-1 order-1">
-      <img src="{{$user->image ? asset('storage/' . $user->image) : $user->image}}" alt="{{$user->username}} Profile"
+      <img src="{{$user->image ?? asset('storage') .'/'. $user->image}}" alt="{{$user->username}} Profile"
       class="rounded-full w-20 md:w-40 border border-neutral-300">
     </div>
     {{-- Username & Buttons --}}
