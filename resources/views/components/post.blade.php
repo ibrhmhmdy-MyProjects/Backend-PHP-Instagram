@@ -7,7 +7,9 @@
     {{-- Card Body --}}
     <div class="card-body">
         <div class="max-h-[35rem] overflow-hidden">
-            <img src="{{asset('storage')}}/{{$post->image}}" alt="" class="h-auto w-full object-cover">
+            <a href="{{route('showPost',$post->slug)}}">
+                <img src="{{asset('storage')}}/{{$post->image}}" alt="" class="h-auto w-full object-cover">
+            </a>
         </div>
         <div class="p-3">
             <a href="{{$post->user->username}}" class="mr-1 font-bold">{{$post->user->username}}</a>

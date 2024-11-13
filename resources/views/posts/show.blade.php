@@ -8,7 +8,7 @@
     <div class="flex w-full flex-col bg-white md:w-5/12">
       {{-- Top Section --}}
       <div class="border-b-2">
-        <div class="flex items-center p-5">
+        <div class="flex items-center px-5 py-4">
           <img src="{{$post->user->image}}" alt="{{$post->user->username}}" class="mr-5 h-10 w-10 rounded-full">
           <div class="grow">
             <a href="/{{$post->user->username}}" class="font-bold">
@@ -26,16 +26,12 @@
           </form>
           @endif
         </div>
+        <div class="flex px-6 pb-4 text-pretty">
+          {{$post->description}}
+        </div>
       </div>
       {{-- Middle --}}
       <div class="grow overflow-y-auto">
-        <div class="flex items-start p-5">
-          <img src="{{$post->user->image}}" alt="{{$post->user->username}}" class="mr-5 h10 w-10 rounded-full">
-          <div>
-            <a href="{{$post->user->username}}">{{$post->user->username}}</a>
-            {{$post->description}}
-          </div>
-        </div>
         {{-- Comments --}}
         <div>
           @foreach ($post->comments as $comment)
