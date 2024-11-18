@@ -8,11 +8,16 @@ use Illuminate\Support\Facades\Route;
 
 require __DIR__.'/auth.php';
 
-Route::get('{user:username}',[UsersController::class,'index'])->middleware('auth')->name('userProfile');
-Route::get('{user:username}/edit',[UsersController::class,'edit'])->middleware('auth')->name('editProfile');
-Route::patch('{user:username}/update',[UsersController::class,'update'])->middleware('auth')->name('updateProfile');
-
 Route::middleware('auth')->group(function(){
+
+    Route::controller(UsersController::class)->group(function(){
+        Route::get('{user:username}','index')->name('userProfile');
+        Route::get('{user:username}/edit','edit')->name('editProfile');
+        Route::patch('{user:username}/update','update')->name('updateProfile');
+        Route::get('{user:username}/follow','follow')->name('followUser');
+        Route::get('{user:username}/unfollow','unfollow')->name('unfollowUser');
+    });
+    
     Route::controller(PostController::class)->group(function(){
         Route::get('/','index')->name('home');
         Route::get('post/create', 'create')->name('createPost');
@@ -22,8 +27,12 @@ Route::middleware('auth')->group(function(){
         Route::patch('post/{post:slug}/update', 'update')->name('updatePost');
         Route::delete('post/{post:slug}/delete', 'destroy')->name('deletePost');
     });
+
     Route::post('post/{post:slug}/comment', [CommentController::class,'store'])->name('storeComment');
+    
+    Route::get('post/{post:slug}/like',LikesController::class,)->name('likePost');
+
 });
+
 Route::get('explore',[PostController::class,'explore'])->name('explore');
-Route::get('post/{post:slug}/like',LikesController::class)->middleware('auth')->name('likePost');
 

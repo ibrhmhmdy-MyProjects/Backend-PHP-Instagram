@@ -9,21 +9,25 @@
       {{-- Top Section --}}
       <div class="border-b-2">
         <div class="flex items-center px-5 py-4">
-          <img src="{{$post->user->image}}" alt="{{$post->user->username}}" class="mr-5 h-10 w-10 rounded-full">
+          <img src="{{asset('storage') .'/'. $post->user->image}}" alt="{{$post->user->username}}" class="mr-5 h-10 w-10 rounded-full">
           <div class="grow">
             <a href="{{route('userProfile',$post->user->username)}}" class="font-bold">
               {{$post->user->username}}
             </a>
           </div>
           @if ($post->user->id === auth()->id())
-          <a class="mr-2" href="{{route('editPost',$post->slug)}}"><i class='bx bxs-edit-alt text-blue-600 text-xl'></i></a>
-          <form action="{{route('deletePost',$post->slug)}}" method="POST">
-            @csrf
-            @method('DELETE')
-            <button type="submit" onclick="return confirm('Are You Sure Delete This Post')">
-              <i class='bx bx-message-square-x text-red-600 text-xl'></i>
-            </button>
-          </form>
+            <a class="mr-2" href="{{route('editPost',$post->slug)}}"><i class='bx bxs-edit-alt text-blue-600 text-xl'></i></a>
+            <form action="{{route('deletePost',$post->slug)}}" method="POST">
+              @csrf
+              @method('DELETE')
+              <button type="submit" onclick="return confirm('Are You Sure Delete This Post')">
+                <i class='bx bx-message-square-x text-red-600 text-xl'></i>
+              </button>
+            </form>
+          @elseif (auth()->user()->is_following($post->user))
+            <a href="{{route('unfollowUser',$post->user->username)}}" class="text-blue-500 font-bold">{{__('Unfollow')}}</a>  
+          @else
+            <a href="{{route('followUser',$post->user->username)}}" class="text-blue-500 font-bold">{{__('Follow')}}</a>  
           @endif
         </div>
         <div class="flex px-6 pb-4 text-pretty">

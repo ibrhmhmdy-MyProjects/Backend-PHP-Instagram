@@ -17,7 +17,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
+        $ids = auth()->user()->following()->wherePivot('confirm',true)->get()->pluck('id');
+        $posts = Post::whereIn('user_id',$ids)->latest()->get();
         $suggested_users = auth()->user()->SuggestedUsers();
         return \view('posts.index',\compact(['posts','suggested_users']));
     }

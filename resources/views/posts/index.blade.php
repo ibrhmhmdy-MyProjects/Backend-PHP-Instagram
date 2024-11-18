@@ -35,9 +35,19 @@
                   </a>
                 </div>
                 <div class="flex flex-col grow">
-                  <a href="{{route('userProfile',$user->username)}}" class="font-bold">{{$user->username}}</a>
+                  <a href="{{route('userProfile',$user->username)}}" class="font-bold">
+                    {{$user->username}}
+                    @if (auth()->user()->is_follower($user))
+                        <span class="text-xs text-gray-500">{{__('Follower')}}</span>
+                    @endif
+                  </a>
                   <div class="text-gray-500 text-sm">{{$user->name}}</div>
                 </div>
+                @if (auth()->user()->is_pending($user))
+                  <span class="text-gray-500 font-bold">{{__('Pending')}}</span>
+                @else
+                  <a href="{{route('followUser',$user->username)}}" class="text-blue-500 font-bold">{{__('Follow')}}</a>  
+                @endif
               </li>
           @endforeach
         </ul>

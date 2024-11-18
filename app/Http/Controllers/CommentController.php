@@ -36,9 +36,6 @@ class CommentController extends Controller
 
         $userid = Auth::user()->id;
         
-
-        // \dd($userid);
-
         $post->comments()->create([
             'body' => $request->body,
             'user_id' => $userid,

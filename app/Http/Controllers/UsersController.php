@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateUserProfileRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
@@ -35,5 +34,13 @@ class UsersController extends Controller
         $user->update($data->toArray());
         
         return \redirect(route('userProfile',$user->username));
+    }
+    public function follow(User $user){
+        auth()->user()->follow($user);
+        return \back();
+    }
+    public function unfollow(User $user){
+        auth()->user()->unfollow($user);
+        return \back();
     }
 }
