@@ -11,15 +11,7 @@
                 <img src="{{asset('storage')}}/{{$post->image}}" alt="" class="h-auto w-full object-cover">
             </a>
         </div>
-        <div class="p-3">
-            <a href="{{route('likePost',$post->slug)}}">
-                @if ($post->liked(auth()->user()))
-                <i class="bx bxs-heart text-2xl text-red-600 hover:text-gray-400 cursor-pointer mr-3"></i>
-                @else
-                <i class="bx bx-heart text-2xl hover:text-gray-400 cursor-pointer mr-3"></i>
-                @endif
-            </a>
-        </div>
+        <livewire:like :post="$post"/>
         <div class="p-3">
             <a href="{{route('userProfile',$post->user->username)}}" class="mr-1 font-bold">{{$post->user->username}}</a>
             <p class="text-gray-600">{{$post->description}}</p>
